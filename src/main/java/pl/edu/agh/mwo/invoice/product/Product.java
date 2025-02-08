@@ -4,14 +4,11 @@ import java.math.BigDecimal;
 
 public abstract class Product {
     private final String name;
-
     private final BigDecimal price;
-
     private final BigDecimal taxPercent;
 
-    protected Product(String name, BigDecimal price, BigDecimal tax) {
-
-        if (name == null || name.isBlank()  ) {
+    protected Product(String name, BigDecimal price, BigDecimal taxPercent) {
+        if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("You cannot create products with null or empty name.");
         }
 
@@ -19,9 +16,13 @@ public abstract class Product {
             throw new IllegalArgumentException("You cannot create products with null or negative price.");
         }
 
+        if (taxPercent == null || taxPercent.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("You cannot create products with null or negative tax percent.");
+        }
+
         this.name = name;
         this.price = price;
-        this.taxPercent = tax;
+        this.taxPercent = taxPercent;
     }
 
     public String getName() {
@@ -33,12 +34,12 @@ public abstract class Product {
     }
 
     public BigDecimal getTaxPercent() {
-
-        return price.add(price.multiply(taxPercent));
+        // Zwracamy dokładnie procent podatku
+        return this.taxPercent;
     }
 
     public BigDecimal getPriceWithTax() {
-
+        // Cena brutto = cena netto + (cena netto * procent podatku)
         return this.price.add(this.price.multiply(this.taxPercent));
     }
 }
