@@ -1,63 +1,61 @@
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
+    //private final Set<Product> products = new HashSet<>();
+    private final Map<Product, Integer> products = new HashMap<>();
 
-    private Map<Product, Integer> products = new HashMap<>();
-
-    // Dodanie produktu bez ilości (domyślna ilość: 1)
     public void addProduct(Product product) {
+        this.products.put(product,1);
         if (product == null) {
-            throw new IllegalArgumentException("Product nie może być null");
+            throw new IllegalArgumentException("Product cannot be null");
         }
-        this.addProduct(product, 1); // Wywołanie metody z ilością
     }
 
-    // Dodanie produktu z określoną ilością
     public void addProduct(Product product, Integer quantity) {
-        if (product == null) {
-            throw new IllegalArgumentException("Product nie może być null");
+        this.products.put(product, quantity);
+        if(quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than 0");
         }
-        if (quantity == null || quantity <= 0) {
-            throw new IllegalArgumentException("Ilość musi być większa od zera");
-        }
-        this.products.put(product, this.products.getOrDefault(product, 0) + quantity);
     }
 
-    // Obliczenie sumy netto (bez podatków)
     public BigDecimal getSubtotal() {
-        BigDecimal sum = BigDecimal.ZERO;
+        BigDecimal subtotal = BigDecimal.ZERO;
+
         for (Map.Entry<Product, Integer> entry : products.entrySet()) {
             Product product = entry.getKey();
             Integer quantity = entry.getValue();
-            sum = sum.add(product.getPrice().multiply(new BigDecimal(quantity)));
+
+            subtotal = subtotal.add(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
         }
-        return sum;
+        return subtotal;
     }
 
-    // Obliczenie kwoty podatku
     public BigDecimal getTax() {
         BigDecimal tax = BigDecimal.ZERO;
         for (Map.Entry<Product, Integer> entry : products.entrySet()) {
             Product product = entry.getKey();
             Integer quantity = entry.getValue();
-            tax = tax.add(product.getPriceWithTax().subtract(product.getPrice()).multiply(new BigDecimal(quantity)));
+            tax = tax.add((product.getPrice().multiply(BigDecimal.valueOf(quantity))).multiply(product.getTaxPercent()));
         }
         return tax;
     }
 
-    // Obliczenie całkowitej sumy brutto (z podatkami)
     public BigDecimal getTotal() {
         BigDecimal total = BigDecimal.ZERO;
+        BigDecimal subtotal;
+        BigDecimal tax;
+
         for (Map.Entry<Product, Integer> entry : products.entrySet()) {
             Product product = entry.getKey();
             Integer quantity = entry.getValue();
-            total = total.add(product.getPriceWithTax().multiply(new BigDecimal(quantity)));
+            subtotal = product.getPrice().multiply(BigDecimal.valueOf(quantity));
+            tax = product.getPrice().multiply(BigDecimal.valueOf(quantity)).multiply(product.getTaxPercent());
+            total = total.add(subtotal.add(tax));
         }
         return total;
     }
