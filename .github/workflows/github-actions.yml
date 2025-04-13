@@ -1,5 +1,15 @@
-name: CI for Java Invoice
-on: [push]
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+      - tdd
+  pull_request:
+    branches:
+      - main
+      - tdd
+
 jobs:
   checkstyle:
     name: Lint with Checkstyle
@@ -13,8 +23,9 @@ jobs:
           distribution: 'adopt'
       - name: Lint
         run: mvn checkstyle:check
+
   test:
-    name: Unit tests
+    name: Unit Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,5 +34,5 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
-      - name: Test
+      - name: Run Tests
         run: mvn test
