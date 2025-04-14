@@ -125,4 +125,33 @@ public class InvoiceTest {
     public void testAddingNullProduct() {
         invoice.addProduct(null);
     }
+
+    @Test
+    public void testAddingSameProductTwiceIncreasesQuantity() {
+        // Arrange
+        Product product = new OtherProduct("Piwo", new BigDecimal("5"));
+
+        // Act
+        invoice.addProduct(product);
+        invoice.addProduct(product);
+
+        // Assert
+        Assert.assertEquals(1, invoice.getProducts().size());
+        Assert.assertEquals(2, invoice.getProductQuantity(product));
+    }
+
+    @Test
+    public void testAddingSameProductWithDifferentQuantities() {
+        // Arrange
+        Product product = new OtherProduct("Piwo", new BigDecimal("5"));
+
+        // Act
+        invoice.addProduct(product, 3);
+        invoice.addProduct(product, 2);
+
+        // Assert
+        Assert.assertEquals(1, invoice.getProducts().size());
+        Assert.assertEquals(5, invoice.getProductQuantity(product));
+    }
+
 }
