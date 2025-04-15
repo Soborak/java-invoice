@@ -1,10 +1,10 @@
 package pl.edu.agh.mwo.invoice;
 
-public class Faktura {
+public class InvoiceNumber {
     private static int licznik = 0; // Statyczny licznik dla wszystkich faktur
     private int numer;
 
-    public Faktura() {
+    public InvoiceNumber() {
         this.numer = ++licznik; // Inkrementacja przy każdej nowej fakturze
     }
 

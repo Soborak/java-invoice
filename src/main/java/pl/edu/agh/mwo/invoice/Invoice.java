@@ -51,5 +51,5 @@ public class Invoice {
     public int getProductQuantity(Product product) {
         return products.getOrDefault(product, 0);
     }
-    
+
 }
