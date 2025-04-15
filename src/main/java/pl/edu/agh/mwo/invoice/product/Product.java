@@ -21,18 +21,35 @@ public abstract class Product {
     }
 
     public String getName() {
+
         return name;
     }
 
     public BigDecimal getPrice() {
+
         return price;
     }
 
     public BigDecimal getTaxPercent() {
+
         return taxPercent;
     }
 
     public BigDecimal getPriceWithTax() {
+
         return price.multiply(taxPercent).add(price);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return name.equals(product.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 }

@@ -64,5 +64,10 @@ public class Invoice {
         return invoiceNumber; // Zwracamy numer faktury
     }
 
+    public int getQuantity(Product product) {
+        // Pobierz ilość produktu z mapy, jeśli istnieje, lub zwróć 0
+        return products.getOrDefault(product, 0);
+    }
+
 }
 
