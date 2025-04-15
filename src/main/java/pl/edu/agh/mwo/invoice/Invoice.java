@@ -8,6 +8,12 @@ import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
     private Map<Product, Integer> products = new HashMap<>();
+    private InvoiceNumber invoiceNumber; // Pole przechowujące numer faktury
+
+    // Konstruktor klasy Invoice
+    public Invoice() {
+        this.invoiceNumber = new InvoiceNumber(); // Inicjalizacja numeru faktury w konstruktorze
+    }
 
     public void addProduct(Product product) {
         addProduct(product, 1);
@@ -52,4 +58,10 @@ public class Invoice {
         return products.getOrDefault(product, 0);
     }
 
+    public InvoiceNumber getInvoiceNumber() {
+        // InvoiceNumber invoiceNumber;
+        return invoiceNumber; // Zwracamy numer faktury
+    }
+
 }
+
