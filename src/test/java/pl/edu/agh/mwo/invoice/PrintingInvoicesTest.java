@@ -3,9 +3,7 @@ package pl.edu.agh.mwo.invoice;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.mwo.invoice.product.OtherProduct;
 import pl.edu.agh.mwo.invoice.product.TaxFreeProduct;
-
 import java.math.BigDecimal;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PrintingInvoicesTest {

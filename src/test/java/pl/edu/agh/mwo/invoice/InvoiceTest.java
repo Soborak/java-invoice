@@ -128,28 +128,30 @@ public class InvoiceTest {
 
     @Test
     public void testAddingSameProductTwiceIncreasesQuantity() {
-        // Arrange
+        // Arrange: Tworzymy obiekt produktu "Piwo" z ceną 5 PLN
         Product product = new OtherProduct("Piwo", new BigDecimal("5"));
 
-        // Act
+        // Act: Dodajemy ten sam produkt dwukrotnie do faktury
         invoice.addProduct(product);
         invoice.addProduct(product);
 
-        // Assert
+        // Assert: Sprawdzamy, czy produkt jest dodany jako jedna pozycja,
+        // a jego ilość została zwiększona do 2
         Assert.assertEquals(1, invoice.getProducts().size());
         Assert.assertEquals(2, invoice.getProductQuantity(product));
     }
 
     @Test
     public void testAddingSameProductWithDifferentQuantities() {
-        // Arrange
+        // Arrange: Tworzymy obiekt produktu "Piwo" z ceną 5 PLN
         Product product = new OtherProduct("Piwo", new BigDecimal("5"));
 
-        // Act
+        // Act: Dodajemy ten sam produkt dwukrotnie z różnymi ilościami (3 i 2)
         invoice.addProduct(product, 3);
         invoice.addProduct(product, 2);
 
-        // Assert
+        // Assert: Sprawdzamy, czy produkt jest dodany jako jedna pozycja,
+        // a jego całkowita ilość wynosi 5
         Assert.assertEquals(1, invoice.getProducts().size());
         Assert.assertEquals(5, invoice.getProductQuantity(product));
     }

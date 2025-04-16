@@ -33,4 +33,5 @@ public class ProductsDuplicated {
     public Map<Product, Integer> getProducts() {
         return products;
     }
+
 }
